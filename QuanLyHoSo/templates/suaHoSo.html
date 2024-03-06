@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sửa hồ sơ{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <center><h1>Sửa hồ sơ</h1></center>
+        <form method="POST" action="{% url 'suaHoSo' hoSo.id %}">
+            {% csrf_token %}
+            <div class="mb-3 mt-3">
+              <label class="form-label">Mã VCNLD:</label>
+              <input class="form-control" name="maVCNLD" value="{{ hoSo.maVCNLD }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Mã cán bộ:</label>
+              <input class="form-control" name="maCanBo" value="{{ hoSo.maCanBo }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Họ tên:</label>
+              <input class="form-control" name="hoTen" value="{{ hoSo.hoTen }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Giới tính</label>
+              <br/>
+              {% if hoSo.gioiTinh == True %}
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinh1" value="1" required checked>
+                  <label class="form-check-label" for="gioiTinh1">Nam</label>
+              </div>
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinh2" value="0" required>
+                  <label class="form-check-label" for="gioiTinh2">Nữ</label>
+              </div>
+              {% else %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinh1" value="1" required>
+                    <label class="form-check-label" for="gioiTinh1">Nam</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinh2" value="0" required checked>
+                    <label class="form-check-label" for="gioiTinh2">Nữ</label>
+                </div>
+              {% endif %}
+          </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Ngày sinh:</label>
+              <input type="date" class="form-control" name="ngaySinh" value="{{ hoSo.ngaySinh|date:'Y-m-d' }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Số điện thoại:</label>
+              <input type="number" class="form-control" name="soDienThoai" value="{{ hoSo.soDienThoai }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Email:</label>
+              <input type="email" class="form-control" name="email" value="{{ hoSo.email }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Quê quán:</label>
+              <input class="form-control" name="queQuan" value="{{ hoSo.queQuan }}">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Thời gian bắt đầu công tác:</label>
+              <input type="date" class="form-control" name="thoiGianBatDauCT" value="{{ hoSo.thoiGianBatDauCT|date:'Y-m-d' }}">
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label class="form-label">Đơn vị</label>
+              <select class="form-control combobox" name="donVi" id="donVi" required>
+                <option value=""></option>
+                {% for value in cacDonVi  %}
+                    {% if value == hoSo.donVi %}
+                        <option value="{{ value.id }}" selected>{{ value.tenDonVi }}</option>
+                    {% else %}
+                        <option value="{{ value.id }}">{{ value.tenDonVi }}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Đối tượng cán bộ</label>
+              <select class="form-control combobox" name="doiTuongCanBo" id="doiTuongCanBo" required>
+                <option value=""></option>
+                {% for value in cacDoiTuongCanBo  %}
+                    {% if value == hoSo.doiTuongCanBo %}
+                        <option value="{{ value.id }}" selected>{{ value.loaiDoiTuong }}</option>
+                    {% else %}
+                        <option value="{{ value.id }}">{{ value.loaiDoiTuong }}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label">Trạng thái</label>
+                <br/>
+                {% if hoSo.trangThai == True %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="trangThai1" value="1" required checked>
+                        <label class="form-check-label" for="trangThai1">Đang công tác</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="trangThai2" value="0" required>
+                        <label class="form-check-label" for="trangThai2">Hết công tác</label>
+                    </div>
+                {% else %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="trangThai1" value="1" required>
+                        <label class="form-check-label" for="trangThai1">Đã duyệt</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="trangThai2" value="0" required checked>
+                        <label class="form-check-label" for="trangThai2">Chưa duyệt</label>
+                    </div>
+                {% endif %}
+            </div>
+            <hr/>
+            <label class="form-check-label">
+              Loại cán bộ
+            </label>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isLanhDao">
+                Lãnh đạo
+              </label>
+              {% if hoSo.isLanhDao == True %}
+                <input class="form-check-input" name="isLanhDao" type="checkbox" value="1" id="isLanhDao" checked>
+              {% else %}
+                <input class="form-check-input" name="isLanhDao" type="checkbox" value="1" id="isLanhDao">
+              {% endif %}
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isKiemNhiemNoiKhac">
+                Kiêm nhiệm nơi khác
+              </label>
+              {% if hoSo.isKiemNhiemNoiKhac == True %}
+              <input class="form-check-input" name="isKiemNhiemNoiKhac" type="checkbox" value="1" id="isKiemNhiemNoiKhac" checked>
+              {% else %}
+              <input class="form-check-input" name="isKiemNhiemNoiKhac" type="checkbox" value="1" id="isKiemNhiemNoiKhac" >
+              {% endif %}
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isGiangVien">
+                Giảng viên
+              </label>
+              {% if hoSo.isGiangVien == True %}
+              <input class="form-check-input" name="isGiangVien" type="checkbox" value="1" id="isGiangVien" checked>
+              {% else %}
+              <input class="form-check-input" name="isGiangVien" type="checkbox" value="1" id="isGiangVien">
+              {% endif %}
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="flexCheckDefault">
+                Nghiên cứu viên
+              </label>
+              {% if hoSo.isNghienCuuVien == True %}
+              <input class="form-check-input" name="isNghienCuuVien" type="checkbox" value="1" id="flexCheckDefault" checked>
+              {% else %}
+              <input class="form-check-input" name="isNghienCuuVien" type="checkbox" value="1" id="flexCheckDefault">
+              {% endif %}
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Hình thức giao kết:</label>
+              <input class="form-control" name="hinhThucGiaoKet" value="{{ hoSo.hinhThucGiaoKet }}">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

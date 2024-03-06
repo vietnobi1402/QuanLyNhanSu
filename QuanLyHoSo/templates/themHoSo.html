@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Thêm mới hồ sơ{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <center><h1>Thêm hồ sơ mới</h1></center>
+        <form method="POST" action="{% url 'themHoSo' %}">
+            {% csrf_token %}
+            <div class="mb-3 mt-3">
+              <label class="form-label">Mã VCNLD:</label>
+              <input class="form-control" name="maVCNLD">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Mã cán bộ:</label>
+              <input class="form-control" name="maCanBo">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Họ tên:</label>
+              <input class="form-control" name="hoTen">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Giới tính</label>
+              <br/>
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinh1" value="1" required>
+                  <label class="form-check-label" for="gioiTinh1">Nam</label>
+              </div>
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="trangThai" id="gioiTinh2" value="0" required>
+                  <label class="form-check-label" for="gioiTinh2">Nữ</label>
+              </div>
+          </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Ngày sinh:</label>
+              <input type="date" class="form-control" name="ngaySinh">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Số điện thoại:</label>
+              <input type="number" class="form-control" name="soDienThoai">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Email:</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Quê quán:</label>
+              <input class="form-control" name="queQuan">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Thời gian bắt đầu công tác:</label>
+              <input type="date" class="form-control" name="thoiGianBatDauCT">
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label class="form-label">Đơn vị</label>
+              <select class="form-control combobox" name="donVi" id="donVi" required>
+                <option value=""></option>
+                {% for value in cacDonVi  %}
+                    <option value="{{ value.id }}">{{ value.tenDonVi }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Đối tượng cán bộ</label>
+              <select class="form-control combobox" name="doiTuongCanBo" id="doiTuongCanBo" required>
+                <option value=""></option>
+                {% for value in cacDoiTuongCanBo  %}
+                    <option value="{{ value.id }}">{{ value.loaiDoiTuong }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label">Trạng thái</label>
+                <br/>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" id="trangThai1" value="1" required>
+                    <label class="form-check-label" for="trangThai1">Đang công tác</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" id="trangThai2" value="0" required>
+                    <label class="form-check-label" for="trangThai2">Hết công tác</label>
+                </div>
+            </div>
+            <hr/>
+            <label class="form-check-label">
+              Loại cán bộ
+            </label>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isLanhDao">
+                Lãnh đạo
+              </label>
+              <input class="form-check-input" name="isLanhDao" type="checkbox" value="1" id="isLanhDao">
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isKiemNhiemNoiKhac">
+                Kiêm nhiệm nơi khác
+              </label>
+              <input class="form-check-input" name="isKiemNhiemNoiKhac" type="checkbox" value="1" id="isKiemNhiemNoiKhac">
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="isGiangVien">
+                Giảng viên
+              </label>
+              <input class="form-check-input" name="isGiangVien" type="checkbox" value="1" id="isGiangVien">
+            </div>
+            <div class="form-check mb-3 mt-3">
+              <label class="form-check-label" for="flexCheckDefault">
+                Nghiên cứu viên
+              </label>
+              <input class="form-check-input" name="isNghienCuuVien" type="checkbox" value="1" id="flexCheckDefault">
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">Hình thức giao kết:</label>
+              <input class="form-control" name="hinhThucGiaoKet">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

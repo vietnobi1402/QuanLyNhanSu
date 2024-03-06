@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Xác nhận xóa mục học phí{% endblock %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <center><h1>Xóa hồ sơ</h1></center>
+        <form method="POST" action="{% url 'xoaHoSo' hoSo.id %}">
+            {% csrf_token %}
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Mã VCNLD:</label>
+              <label class="form-label">{{ hoSo.maVCNLD }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Mã cán bộ:</label>
+              <label class="form-label">{{ hoSo.maCanBo }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Họ tên:</label>
+              <label class="form-label">{{ hoSo.hoTen }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Giới tính:</label>
+              {% if hoSo.gioiTinh == True %}
+                <label class="form-label">Nam</label>
+              {% else %}
+                <label class="form-label">Nữ</label>
+              {% endif %}
+          </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Ngày sinh:</label>
+              <label class="form-label">{{ hoSo.ngaySinh }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Số điện thoại:</label>
+              <label class="form-label">{{ hoSo.soDienThoai }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Email:</label>
+              <label class="form-label">{{ hoSo.email }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Quê quán:</label>
+              <label class="form-label">{{ hoSo.queQuan }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Thời gian bắt đầu công tác:</label>
+              <label class="form-label">{{ hoSo.thoiGianBatDauCT }}</label>
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Đơn vị:</label>
+              <label class="form-label">{{ hoSo.donVi.tenDonVi }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Đối tượng cán bộ:</label>
+              <label class="form-label">{{ hoSo.doiTuongCanBo.loaiDoiTuong }}</label>
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label fw-bold">Trạng thái:</label>
+                {% if hoSo.trangThai == True %}
+                    <label class="form-label">Đang công tác</label>
+                {% else %}
+                    <label class="form-label">Hết công tác</label>
+                {% endif %}
+            </div>
+            <hr/>
+            <label class="form-check-label fw-bold">
+                Loại cán bộ
+              </label>
+              <div class="form-check mb-3 mt-3">
+                <label class="form-check-label" for="isLanhDao">
+                  Lãnh đạo
+                </label>
+                {% if hoSo.isLanhDao == True %}
+                  <input class="form-check-input" name="isLanhDao" type="checkbox" value="1" id="isLanhDao" checked disabled>
+                {% else %}
+                  <input class="form-check-input" name="isLanhDao" type="checkbox" value="1" id="isLanhDao" disabled>
+                {% endif %}
+              </div>
+              <div class="form-check mb-3 mt-3">
+                <label class="form-check-label" for="isKiemNhiemNoiKhac">
+                  Kiêm nhiệm nơi khác
+                </label>
+                {% if hoSo.isKiemNhiemNoiKhac == True %}
+                <input class="form-check-input" name="isKiemNhiemNoiKhac" type="checkbox" value="1" id="isKiemNhiemNoiKhac" checked disabled>
+                {% else %}
+                <input class="form-check-input" name="isKiemNhiemNoiKhac" type="checkbox" value="1" id="isKiemNhiemNoiKhac" disabled>
+                {% endif %}
+              </div>
+              <div class="form-check mb-3 mt-3">
+                <label class="form-check-label" for="isGiangVien">
+                  Giảng viên
+                </label>
+                {% if hoSo.isGiangVien == True %}
+                <input class="form-check-input" name="isGiangVien" type="checkbox" value="1" id="isGiangVien" checked disabled>
+                {% else %}
+                <input class="form-check-input" name="isGiangVien" type="checkbox" value="1" id="isGiangVien" disabled>
+                {% endif %}
+              </div>
+              <div class="form-check mb-3 mt-3">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Nghiên cứu viên
+                </label>
+                {% if hoSo.isNghienCuuVien == True %}
+                <input class="form-check-input" name="isNghienCuuVien" type="checkbox" value="1" id="flexCheckDefault" checked disabled>
+                {% else %}
+                <input class="form-check-input" name="isNghienCuuVien" type="checkbox" value="1" id="flexCheckDefault" disabled>
+                {% endif %}
+              </div>
+              <div class="mb-3 mt-3">
+            <div class="mb-3 mt-3">
+              <label class="form-label fw-bold">Hình thức giao kết:</label>
+              <label class="form-label">{{ hoSo.hinhThucGiaoKet }}</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

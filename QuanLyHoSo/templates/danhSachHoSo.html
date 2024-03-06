@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Danh sách các hồ sơ{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="row">
+        <center><h4 class="mt-5 font-weight-bold text-primary">Danh sách hồ sơ</h4></center>
+        <div class="col-11">
+        </div class="col-1">
+        <div>
+            <a href="/quanlyhoso/themhoso"><button class = "btn btn-success float-end" >Thêm hồ sơ mới</button></a>
+        </div>
+    </div>
+    {% if alertContent == "Thêm" %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="myAlert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Thêm hồ sơ mới thành công!</strong>
+        </div>
+    {% endif %}
+    {% if alertContent == "Sửa" %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="myAlert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Sửa hồ sơ thành công!</strong>
+        </div>
+    {% endif %}
+    {% if alertContent == "Xóa" %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="myAlert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Xóa hồ sơ thành công!</strong>
+        </div>
+    {% endif %}
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <th>
+                Mã VCNLD
+            </th>
+            <th>
+                Mã số
+            </th>
+            <th>
+                Họ tên
+            </th>
+            <th>
+                Giới tính
+            </th>
+            <th>
+                Đơn vị
+            </th>
+            <th>
+                Thời gian công tác
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Thao tác
+            </th>
+            </thead>
+            <tbody>
+                {% for hoSo in listHoSo %}
+                    <tr id="{{ hoSo.id }}">
+                        <td>{{ hoSo.maVCNLD }}</td>
+                        <td>{{ hoSo.maCanBo }}</td>
+                        <td>{{ hoSo.hoTen }}</td>
+                        {% if hoSo.gioiTinh == True %}
+                            <td>Nam</td>
+                        {% else %}
+                            <td>Nữ</td>
+                        {% endif %}
+                        
+                        <td>{{ hoSo.donVi.tenDonVi }}</td>
+                        <td><span id="timeDistance{{ hoSo.id }}"></span></td>
+                        <td>
+                            {% if hoSo.trangThai %}
+                                Đang công tác
+                            {% else %}
+                                Hết công tác
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'suaHoSo' hoSo.id %}"><button class="btn btn-warning" type="submit">Sửa</button></a>
+                            <a href="{% url 'xoaHoSo' hoSo.id %}"><button class="btn btn-danger" type="submit">Xóa</button></a>
+                        </td>
+                    </tr>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+                    <script>
+                        var startTime = moment("{{ hoSo.thoiGianBatDauCT }}", "DD-MM-YYYY");  // Convert the start time to a Moment.js object with the appropriate format
+                        var currentTime = moment();  // Get the current date and time using Moment.js
+            
+                        var timeDifference = currentTime.diff(startTime, 'days');  // Calculate the time difference in days
+            
+                        var timeDistanceElement = document.getElementById("timeDistance{{ hoSo.id }}");  // Get the <span> element by id
+                        timeDistanceElement.textContent = timeDifference + " ngày";  // Update the content of the <span> element
+                    </script>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    // Auto-close the alert after 3 seconds (3000 milliseconds)
+    setTimeout(() => {
+      document.getElementById('myAlert').remove();
+    }, 3000);
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            language: {
+                searchPlaceholder: "Tìm kiếm",
+                search: "",
+                "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                "sInfoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                "sInfoFiltered": "Lọc từ _MAX_ mục",
+                "sLengthMenu": "Hiện _MENU_ mục",
+                "sEmptyTable": "Không có dữ liệu",
+
+            },
+            stateSave: true,
+            dom: '<"clear"><"row"<"col"l><"col"f>>rt<"row"<"col"i><"col"p>><"row"<"col"B>>',
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }, title: ''
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }, title: ''
+                }
+            ]
+        });
+    });
+
+    $(document).ready(function () {
+        $('.dataTables_filter input[type="search"]').css(
+            { 'width': '350px', 'display': 'inline-block', 'height': '40px' }
+        );
+    });
+</script>
+{% endblock %}
